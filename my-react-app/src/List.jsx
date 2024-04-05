@@ -1,27 +1,27 @@
+import propTypes from "prop-types";
 
-function List(){
-    const fruits = [{id: 1,name:"apple",calories:95},
-                    {id: 2,name:"banana",calories:80},
-                    {id: 3,name:"orange",calories:40},
-                    {id: 4,name:"coconut",calories:110}
-    ];
+List.propTypes = {
+    items: propTypes.array,
+    category: propTypes.string
+};
+List.defaultProps = {
+    category: "Category",
+    items: [{id: 0,name:"There is no array", calories:0}]
+}
 
-    // //some popular type of sorting an array
-    // fruits.sort((a,b) => a.name.localeCompare(b.name)); //alphabetical order
-    // fruits.sort((a,b) => b.name.localeCompare(a.name)); //reverse alphabetical order
-    // fruits.sort((a,b) => a.calories - b.calories); //ascending order
-    // fruits.sort((a,b) => b.calories - a.calories); //descending order
-    // //filter an array
-    // const lowCalFruits = fruits.filter(fruit => fruit.calories < 100);
-    // const highCalFruits = fruits.filter(fruit => fruit.calories >= 100);
+function List(props){
+    const itemList = props.items;
 
-    const listItems = fruits.map(fruit => 
-    <li key={fruit.id}>
-        {fruit.name}: &nbsp;
-        <b>{fruit.calories}</b>
-    </li>);
+    const listItems = itemList.map(item => <li key={item.id}>
+                                                {item.name}: &nbsp;
+                                                <b>{item.calories}</b>
+                                            </li>);
 
-    return (<ul>{listItems}</ul>);
+    return (
+    <>
+    <h3 className="list-category">{props.category}</h3>
+    <ul className="list-items">{listItems}</ul>
+    </>);
 }
 
 export default List
