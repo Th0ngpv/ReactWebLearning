@@ -8,27 +8,31 @@ import {useState} from 'react';
 
 const MyComponent = () => {
     
-    const [car, setCar] = useState( {year: 1970,
-                                    make:"Tesla",
-                                    model: "3"});
-    const handleYearChange = (e) => {
-        //updater for an object
-        setCar(c => ({ ...c,year: e.target.value}));
+    const [foods, setFoods] = useState(["burger","apple","banana"]);
+    const handleAddFood = () => {
+        const newFood = document.getElementById("foodInput").value;
+        if (newFood.length > 0) {
+            document.getElementById("foodInput").value = "";
+            //updater function for an array in React
+            setFoods(f => [...f, newFood])
+        }
     }
-    const handleMakeChange = (e) => {
-        setCar(c => ({ ...c,make: e.target.value}));
-    }
-    const handleModelChange = (e) => {
-        setCar(c => ({ ...c,model: e.target.value}));
+    const handleRemoveFood = (index) => {
+        
+        setFoods(foods.filter((_, i) => i !== index));
     }
 
     return (
         <div>
-            <p>your favorite car is: {car.year} {car.make} {car.model}</p>
-
-            <input type="number" value = {car.year} onChange={handleYearChange}/>
-            <input type="text" value = {car.make} onChange={handleMakeChange}/>
-            <input type="text" value = {car.model} onChange={handleModelChange}/>
+            <h2>List of Food</h2>
+            <ol>
+                {foods.map((food, index) => 
+                <li key={index} onClick={() => handleRemoveFood(index)}>
+                    {food}
+                </li>)}
+            </ol>
+            <input type="text" id='foodInput' placeholder='Enter food name' />
+            <button onClick={handleAddFood}>Add Food</button>
         </div>
     );
 }
